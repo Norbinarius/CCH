@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/event_info"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settings_door_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Точка прохода по умолчанию:"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/settings_door_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_door_text"
+                android:layout_marginTop="5dp"
+                android:inputType="number"
+                android:hint="Введите ID точки прохода"
+                android:textColor="@android:color/black" />
+
+            <Button
+                android:id="@+id/settings_apply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_door_input"
+                android:text="Сохранить" />
+
+        </RelativeLayout>
+
+</LinearLayout>

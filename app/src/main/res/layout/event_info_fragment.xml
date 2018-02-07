@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:id="@+id/event_info"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/event_info_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Название: ТЕХНОПАРК 25 ЛЕТ. ОТ ХОРОШЕГО К ВЕЛИКОМУ"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/event_info_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ID: 12312"
+                android:layout_below="@id/event_info_name"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/event_info_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Начало: 25.01.2017 22:35"
+                android:layout_below="@id/event_info_id"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/event_info_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Завершение: 26.01.2017 22:35"
+                android:layout_below="@id/event_info_start_time"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/event_info_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Комментарий: это классное мероприятие"
+                android:layout_below="@id/event_info_end_time"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/event_info_attr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Атрибуты"
+                android:layout_below="@id/event_info_comment"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+
+</LinearLayout>

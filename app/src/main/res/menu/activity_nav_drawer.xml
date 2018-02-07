@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Мероприятия">
+        <menu>
+            <item
+                android:id="@+id/nav_active_events"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Текующие мероприятия" />
+            <item
+                android:id="@+id/nav_disabled_events"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Просшедшие мероприятия" />
+        </menu>
+    </item>
+
+    <item android:title="Поиск билета">
+        <menu>
+            <item
+                android:id="@+id/nav_search"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Поиск вручную" />
+            <item
+                android:id="@+id/nav_qr"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Сканирование" />
+        </menu>
+    </item>
+
+    <item android:title="Прочее">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Настройки" />
+        </menu>
+    </item>
+
+</menu>
