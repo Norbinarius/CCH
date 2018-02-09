@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,7 +45,10 @@ public class TicketFragment extends Fragment {
     private TextView keyData;
     private TextView keyAttributes;
     private TextView keyState;
+    private Button passLogBtn;
 
+    public static int actionID;
+    public static String keyValue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,11 +64,25 @@ public class TicketFragment extends Fragment {
             salesList = Nav.main.get(0).getTicketSales();
         }
 
+        actionID = Integer.parseInt(ticketList.get(0).getIdAction());
+        keyValue = ticketList.get(0).getKeyValue();
+
         keyVal = (TextView)root.findViewById(R.id.key_value);
         keyData = (TextView)root.findViewById(R.id.key_data);
         keyAttributes = (TextView)root.findViewById(R.id.key_attributes);
         keyState = (TextView)root.findViewById(R.id.key_status);
         keyEvent = (TextView)root.findViewById(R.id.key_action);
+        passLogBtn = (Button)root.findViewById(R.id.pass_log);
+
+        passLogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame
+                                , new TicketPassLogFragment())
+                        .commit();
+            }
+        });
 
         setKeyDataToLayout();
         setKeySalesToLayout();
@@ -96,17 +114,6 @@ public class TicketFragment extends Fragment {
             keyData.setText("Информация: " + ticketList.get(i).getKeyData());
             keyAttributes.setText("Атрибуты: " + Arrays.toString(ticketList.get(i).getKeyAttributes()));
             keyState.setText("Статус прохода: " + ticketList.get(i).getKeyEnabled());
-        }
-    }
-
-    private class AsyncLoad extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... args) {
-            //ticketList = ServerProvider.getTicketProps(getActivity());
-            return null;//returns what you want to pass to the onPostExecute()
-        }
-
-        protected void onPostExecute(String result) {
-            TicketFragment.this.pd.dismiss();
         }
     }
 }
