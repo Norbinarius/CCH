@@ -13,8 +13,10 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.ArrayList;
 
 import ru.artsec.cch.model.Event;
+import ru.artsec.cch.model.SaleTicket;
 import ru.artsec.cch.model.Ticket;
 import ru.artsec.cch.util.Formatter;
+import ru.artsec.cch.model.PairTicketProps;
 import ru.artsec.cch.util.SharedPrefsUtil;
 
 /**
@@ -142,19 +144,21 @@ public class ServerProvider {
         return mainList;
     }
 
-    public static ArrayList getTicketProps(Activity act, Integer id){
+    public static ArrayList getTicketProps(Activity act, String id){
         SoapObject request = new SoapObject(Config.NAMESPACE_GATES, Config.GET_TICKET);
 
         addProperty(request, "DoorID", SharedPrefsUtil.LoadInt(act,"DoorID", 0), Integer.class);
-        addProperty(request, "KeyValue", id, Integer.class);
+        addProperty(request, "KeyValue", id, String.class);
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelopeSetUpParams(envelope, request);
 
         HttpTransportSE androidHttpTransport = new HttpTransportSE(Config.URL_GATES);
-        ArrayList mainList = new ArrayList();
+        ArrayList ticketValues = new ArrayList();
+        ArrayList ticketSales = new ArrayList();
         try {
             androidHttpTransport.call(Config.SOAP_ACTION_GATES + Config.GET_TICKET, envelope);
+            //TICKET VALUES
             SoapObject resultRequestSOAP = (SoapObject) envelope.bodyIn;
             Ticket tk = new Ticket();
             Log.wtf("MYTAG", resultRequestSOAP.toString());
@@ -170,13 +174,35 @@ public class ServerProvider {
                             tk.setKeyData(key.getProperty("KeyData").toString());
                             tk.setKeyEnabled(key.getProperty("Enabled").toString());
                             tk.setKeyAttributes(Formatter.findNumeric(key.getProperty("KeyAttributes").toString()));
-            mainList.add(tk);
+            ticketValues.add(tk);
 
+            SoapObject sales = (SoapObject) keyProps.getProperty("Sales");
+
+            for (int i = 0; i < sales.getPropertyCount(); i++) {
+                Object property = sales.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject list = (SoapObject) property;
+                    SaleTicket sale = new SaleTicket();
+                    sale.setTransactionID(list.getProperty("TransactionID").toString());
+                    sale.setTransactionType(list.getProperty("TransactionType").toString());
+                    sale.setTransactionTime(list.getProperty("TransactionTime").toString());
+                    sale.setTransactionComment(list.getProperty("TransactionComment").toString());
+                    sale.setKeyData(list.getProperty("KeyData").toString());
+                    sale.setKeyAttributes(Formatter.findNumeric(list.getProperty("KeyAttributes").toString()));
+                    ticketSales.add(sale);
+                }
+            }
         } catch (Exception e) {
             Log.wtf("MYTAG",e.toString());
         }
-        Log.wtf("MYTAG", mainList.toString());
-        return mainList;
+        Log.wtf("MYTAG", ticketValues.toString());
+        Log.wtf("MYTAG", ticketSales.toString());
+        ArrayList<PairTicketProps> group = new ArrayList<PairTicketProps>();
+        PairTicketProps pair = new PairTicketProps();
+        pair.setTicketValues(ticketValues);
+        pair.setTicketSales(ticketSales);
+        group.add(pair);
+        return group;
     }
 
     private static void addProperty(SoapObject req, String name, Object value, Object type){

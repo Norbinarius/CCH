@@ -24,21 +24,21 @@ import java.util.ArrayList;
 
 import ru.artsec.cch.R;
 import ru.artsec.cch.ServerProvider;
-import ru.artsec.cch.model.Ticket;
+import ru.artsec.cch.model.PairTicketProps;
 
 
 public class TicketSearchFragment extends Fragment {
 
     private ProgressDialog pd;
     private LinearLayout cont;
-    private static int ticketID;
-    public static ArrayList<Ticket> ticketList;
+    private static String ticketID;
+    public static ArrayList<PairTicketProps> main;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.events_main, container, false);
 
-        ticketList = new ArrayList<Ticket>();
+        main = new ArrayList<PairTicketProps>();
 
         createAlertDialog(getActivity());
 
@@ -48,20 +48,21 @@ public class TicketSearchFragment extends Fragment {
 
     private class AsyncLoad extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... args) {
-            ticketList = ServerProvider.getTicketProps(getActivity(), ticketID);
+            main = ServerProvider.getTicketProps(getActivity(), ticketID);
             return null;//returns what you want to pass to the onPostExecute()
         }
 
         protected void onPostExecute(String result) {
-            if (ticketList.size() > 0){
+           if (main.get(0).getTicketValues().size() > 0){
+               Toast.makeText(getActivity(), "Найден билет с идентификатором: " + main.get(0).getTicketValues().get(0).getKeyValue(), Toast.LENGTH_SHORT).show();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame
                                 , new TicketFragment())
                         .commit();
-            } else {
+           } else {
                 Toast.makeText(getActivity(), "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
-            }
-            TicketSearchFragment.this.pd.dismiss();
+           }
+           TicketSearchFragment.this.pd.dismiss();
         }
     }
 
@@ -76,7 +77,7 @@ public class TicketSearchFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try{
-                    ticketID = Integer.parseInt(input.getText().toString());
+                    ticketID = input.getText().toString();
                     TicketSearchFragment.this.pd = ProgressDialog.show(getActivity(), "Поиск билета..", "Пожалуйста, подождите...", true, false);
                     new TicketSearchFragment.AsyncLoad().execute();
                 } catch (Exception e) {
