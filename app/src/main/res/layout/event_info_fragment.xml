@@ -7,57 +7,164 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:id="@+id/event_info"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/event_info_name"
+            <LinearLayout
+                android:id="@+id/layout_event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Название: ТЕХНОПАРК 25 ЛЕТ. ОТ ХОРОШЕГО К ВЕЛИКОМУ"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/event_info_id"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/event_info_name_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Название мероприятия"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/event_info_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@id/event_info_name_text"
+                    android:layout_marginLeft="20dp"
+                    android:text="ТЕХНОПАРК 25 ЛЕТ. ОТ ХОРОШЕГО К ВЕЛИКОМУ"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_event_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ID: 12312"
-                android:layout_below="@id/event_info_name"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/event_info_start_time"
+                android:padding="5dp"
+                android:layout_below="@id/layout_event_name"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/event_info_id_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="ID (Идентификатор мероприятия)"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/event_info_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="ID: 12312"
+                    android:layout_below="@id/event_info_id_text"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_event_start_time"
                 android:layout_width="match_parent"
+                android:layout_below="@id/layout_event_id"
                 android:layout_height="wrap_content"
-                android:text="Начало: 25.01.2017 22:35"
-                android:layout_below="@id/event_info_id"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/event_info_end_time"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/event_info_start_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Время начала мероприятия"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/event_info_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Начало: 25.01.2017 22:35"
+                    android:layout_below="@id/event_info_start_time_text"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_event_end_time"
                 android:layout_width="match_parent"
+                android:layout_below="@id/layout_event_start_time"
                 android:layout_height="wrap_content"
-                android:text="Завершение: 26.01.2017 22:35"
-                android:layout_below="@id/event_info_start_time"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/event_info_comment"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/event_info_end_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Время окончания мероприятия"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/event_info_end_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Завершение: 26.01.2017 22:35"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_event_comment"
                 android:layout_width="match_parent"
+                android:layout_below="@id/layout_event_end_time"
                 android:layout_height="wrap_content"
-                android:text="Комментарий: это классное мероприятие"
-                android:layout_below="@id/event_info_end_time"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/event_info_attr"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Комментарий"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/event_info_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Комментарий: это классное мероприятие"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_event_attributes"
                 android:layout_width="match_parent"
+                android:layout_below="@id/layout_event_comment"
                 android:layout_height="wrap_content"
-                android:text="Атрибуты"
-                android:layout_below="@id/event_info_comment"
-                android:textColor="@android:color/black" />
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Атрибуты мероприятия"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/event_info_attr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Атрибуты"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
         </RelativeLayout>
 
 </LinearLayout>

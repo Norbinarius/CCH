@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import ru.artsec.cch.Nav;
@@ -24,6 +25,7 @@ import ru.artsec.cch.R;
 import ru.artsec.cch.ServerProvider;
 import ru.artsec.cch.model.Event;
 import ru.artsec.cch.util.Formatter;
+import ru.artsec.cch.util.ServerProviderHelper;
 
 
 public class EventFragment extends Fragment {
@@ -38,6 +40,8 @@ public class EventFragment extends Fragment {
     TextView eventName;
     TextView eventStartTime;
     TextView eventEndTime;
+
+    public static int actionID;
 
     public static int getContID() {
         return contID;
@@ -70,7 +74,7 @@ public class EventFragment extends Fragment {
     private void setDataToLayout(){
 
         for (int i = 0; i < eventList.size(); i++) {
-            View child = inflaterr.inflate(R.layout.event_fragment, null, false);
+            final View child = inflaterr.inflate(R.layout.event_fragment, null, false);
 
             TextView eventId = (TextView) child.findViewById(R.id.event_id);
             TextView eventName = (TextView) child.findViewById(R.id.event_name);
@@ -81,15 +85,21 @@ public class EventFragment extends Fragment {
             eventName.setText(eventList.get(i).getName());
             eventStartTime.setText(getString(R.string.start) + ": " + Formatter.timeToStr(eventList.get(i).getTimeStart()));
             eventEndTime.setText(getString(R.string.end) + ": " + Formatter.timeToStr(eventList.get(i).getTimeEnd()));
-            eventName.setTag(Integer.parseInt(eventList.get(i).getId()));
-            //Проблема с установкой ИД для листнера
-            child.findViewById(R.id.event_name).setTag(eventList.get(i).getId());
-            cont.setOnClickListener(new View.OnClickListener() {
+
+            child.setTag(Integer.valueOf(eventList.get(i).getId()));
+            child.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), String.valueOf(v.findViewById(R.id.event_name).getTag()), Toast.LENGTH_LONG).show();
+                    actionID = (Integer) v.getTag();
+                    getActivity().setTitle("Информация о мероприятии");
+                    getFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.content_frame
+                                    , new EventInfoFragment())
+                            .commit();
                 }
             });
+
             cont.addView(child);
         }
     }
@@ -99,17 +109,23 @@ public class EventFragment extends Fragment {
 
     private class AsyncLoad extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... args) {
-            if(Nav.isEventActive()) {
-                eventList = ServerProvider.getActiveEvents();
+            if (Nav.isEventActive()) {
+                eventList = ServerProvider.getActiveEvents(getActivity());
             } else {
-                eventList = ServerProvider.getPassedEvents();
+                eventList = ServerProvider.getPassedEvents(getActivity());
             }
             return null;//returns what you want to pass to the onPostExecute()
         }
 
         protected void onPostExecute(String result) {
-            setDataToLayout();
             EventFragment.this.pd.dismiss();
+            ServerProviderHelper.errorException();
+            if (ServerProviderHelper.getErrorMsg() == null) {
+                setDataToLayout();
+            } else {
+                Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
+                Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

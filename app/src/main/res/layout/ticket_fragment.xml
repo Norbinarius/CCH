@@ -11,70 +11,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:id="@+id/ticket_info"
             android:orientation="vertical">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Информация о билете"
-                android:id="@+id/ticket_info_text"
-                android:textSize="18sp"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/key_value"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Информация о билете"
+                    android:id="@+id/ticket_info_text"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/key_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@id/ticket_info_text"
+                    android:text="Номер билета: 7891389128"
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/key_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@id/key_value"
+                    android:text="ПАРТЕР - МЕСТО ДЛЯ ИНВ., ряд 9, место 1"
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/key_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@id/key_action"
+                    android:text="ПАРТЕР - МЕСТО ДЛЯ ИНВ., ряд 9, место 1"
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/key_attributes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@id/key_data"
+                    android:text="Атрибуты: 0, 2, 3"
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:id="@+id/key_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_below="@id/key_attributes"
+                    android:text="Статус билета: разрешен"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/ticket_info_text"
-                android:text="Номер билета: 7891389128"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/key_action"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/key_value"
-                android:text="ПАРТЕР - МЕСТО ДЛЯ ИНВ., ряд 9, место 1"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/key_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/key_action"
-                android:text="ПАРТЕР - МЕСТО ДЛЯ ИНВ., ряд 9, место 1"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/key_attributes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/key_data"
-                android:text="Атрибуты: 0, 2, 3"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/key_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_below="@id/key_attributes"
-                android:text="Статус билета: разрешен"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/sales_info_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_below="@id/key_status"
-                android:text="Информация о продажах билета"
-                android:textColor="@android:color/black" />
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/fragment_text"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sales_info_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_below="@id/key_status"
+                    android:text="Информация о продажах билета"
+                    android:textColor="@color/colorPrimaryDark" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/sales_list"
@@ -86,9 +100,11 @@
 
             <Button
                 android:id="@+id/pass_log"
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sales_list"
+                android:background="@drawable/fragment_selector"
                 android:text="История проходов" />
 
         </LinearLayout>

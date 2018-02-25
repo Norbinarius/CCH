@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,12 +22,16 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ru.artsec.cch.fragments.EventFragment;
+import ru.artsec.cch.fragments.FailPassLogFragment;
 import ru.artsec.cch.fragments.SettingsFragment;
 import ru.artsec.cch.fragments.TicketFragment;
 import ru.artsec.cch.fragments.TicketSearchFragment;
 import ru.artsec.cch.model.PairTicketProps;
+import ru.artsec.cch.util.ServerProviderHelper;
 
 public class Nav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +39,8 @@ public class Nav extends AppCompatActivity
     private ProgressDialog pd;
     private static String ticketID;
     public static ArrayList<PairTicketProps> main;
+    public static String versionServer;
+    private Menu menu;
 
     public static boolean isIsSearchViaCam() {
         return isSearchViaCam;
@@ -62,6 +70,7 @@ public class Nav extends AppCompatActivity
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Главная");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -73,6 +82,7 @@ public class Nav extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         main = new ArrayList<PairTicketProps>();
+        getRepeatingAsyncTask();
 
     }
 
@@ -88,24 +98,56 @@ public class Nav extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.nav, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private void getRepeatingAsyncTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            new GetVerison().execute();
+                        } catch (Exception e) {
+                            // error, do something
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(task, 0, 10*1000);  // interval of one minute
+    }
+
+    private class GetVerison extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... args) {
+            versionServer = ServerProvider.getVersion(Nav.this);
+            return null;//returns what you want to pass to the onPostExecute()
         }
 
-        return super.onOptionsItemSelected(item);
+        protected void onPostExecute(String result) {
+            ServerProviderHelper.errorException();
+            if (ServerProviderHelper.getErrorMsg() == null) {
+                menu.getItem(0).setIcon(ContextCompat.getDrawable(Nav.this, R.drawable.ic_signal_on));
+            } else {
+                if (ServerProviderHelper.getErrorMsg().equals("Ошибка сети, проверьте подключение к сети")) {
+                    menu.getItem(0).setIcon(ContextCompat.getDrawable(Nav.this, R.drawable.ic_turned_off));
+                } else {
+                    menu.getItem(0).setIcon(ContextCompat.getDrawable(Nav.this, R.drawable.ic_signal_error));
+                    Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
+                }
+                //Toast.makeText(Nav.this, ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -115,6 +157,7 @@ public class Nav extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.nav_active_events:
+                setTitle("Текущие мероприятия");
                 setEventActive(true);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame
@@ -122,6 +165,7 @@ public class Nav extends AppCompatActivity
                         .commit();
                 break;
             case R.id.nav_disabled_events:
+                setTitle("Прошедшие мероприятия");
                 setEventActive(false);
                 getFragmentManager().beginTransaction()
                     .replace(R.id.content_frame
@@ -129,6 +173,7 @@ public class Nav extends AppCompatActivity
                     .commit();
                 break;
             case R.id.nav_search:
+                setTitle("Поиск по идентификатору");
                 setIsSearchViaCam(false);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame
@@ -136,6 +181,7 @@ public class Nav extends AppCompatActivity
                         .commit();
                 break;
             case R.id.nav_qr:
+                setTitle("Результаты сканирования");
                 setIsSearchViaCam(true);
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
@@ -145,7 +191,16 @@ public class Nav extends AppCompatActivity
                 integrator.setBarcodeImageEnabled(false);
                 integrator.initiateScan();
                 break;
+            case R.id.nav_fail_log:
+                setTitle("Журнал отказов");
+                setIsSearchViaCam(true);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame
+                                , new FailPassLogFragment())
+                        .commit();
+                break;
             case R.id.nav_settings:
+                setTitle("Настройки");
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame
                                 , new SettingsFragment())
@@ -165,16 +220,22 @@ public class Nav extends AppCompatActivity
         }
 
         protected void onPostExecute(String result) {
-            if (main.get(0).getTicketValues().size() > 0){
-                Toast.makeText(Nav.this, "Найден билет с идентификатором: " + main.get(0).getTicketValues().get(0).getKeyValue(), Toast.LENGTH_SHORT).show();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame
-                                , new TicketFragment())
-                        .commit();
-            } else {
-                Toast.makeText(Nav.this, "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
-            }
             Nav.this.pd.dismiss();
+            ServerProviderHelper.errorException();
+            if (ServerProviderHelper.getErrorMsg() == null) {
+                if (main.get(0).getTicketValues().size() > 0){
+                    Toast.makeText(Nav.this, "Найден билет с идентификатором: " + main.get(0).getTicketValues().get(0).getKeyValue(), Toast.LENGTH_SHORT).show();
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.content_frame
+                                    , new TicketFragment())
+                            .commit();
+                } else {
+                    Toast.makeText(Nav.this, "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
+                Toast.makeText(Nav.this, ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -7,11 +7,11 @@
         <menu>
             <item
                 android:id="@+id/nav_active_events"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_event_available_black_24dp"
                 android:title="Текующие мероприятия" />
             <item
                 android:id="@+id/nav_disabled_events"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_event_note_black_24dp"
                 android:title="Просшедшие мероприятия" />
         </menu>
     </item>
@@ -20,17 +20,21 @@
         <menu>
             <item
                 android:id="@+id/nav_search"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_search_black_24dp"
                 android:title="Поиск вручную" />
             <item
                 android:id="@+id/nav_qr"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_qr_24dp"
                 android:title="Сканирование" />
         </menu>
     </item>
 
     <item android:title="Прочее">
         <menu>
+            <item
+                android:id="@+id/nav_fail_log"
+                android:icon="@drawable/ic_assignment_late_black_24dp"
+                android:title="Журнал отказов" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_manage"

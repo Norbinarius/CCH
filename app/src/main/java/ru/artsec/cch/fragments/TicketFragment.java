@@ -77,7 +77,9 @@ public class TicketFragment extends Fragment {
         passLogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getActivity().setTitle("История проходов");
                 getFragmentManager().beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.content_frame
                                 , new TicketPassLogFragment())
                         .commit();

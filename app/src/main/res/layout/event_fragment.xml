@@ -2,19 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    android:paddingLeft="5dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="@drawable/event_fragment"
+        android:padding="10dp"
+        android:background="@drawable/fragment_selector"
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/belowthis"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:layout_margin="10dp"
+            android:layout_height="75dp"
             android:orientation="vertical">
 
             <TextView
@@ -22,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="5dp"
+                android:textAllCaps="true"
                 android:text="ТЕХНОПАРК 25 ЛЕТ. ОТ ХОРОШЕГО К ВЕЛИКОМУ"
                 android:textColor="@android:color/black" />
 
@@ -32,13 +36,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:text="ID: 12312"
-                android:textColor="@android:color/black" />
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/event_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
+                android:textAllCaps="true"
                 android:layout_alignParentRight="true"
                 android:layout_above="@id/event_end_time"
                 android:text="Начало: 25.01.2017 22:35"
@@ -48,11 +54,11 @@
                 android:id="@+id/event_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAllCaps="true"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:text="Завершение: 26.01.2017 22:35"
                 android:textColor="@android:color/black" />
         </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

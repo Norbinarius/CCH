@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import ru.artsec.cch.R;
 import ru.artsec.cch.ServerProvider;
 import ru.artsec.cch.model.PairTicketProps;
+import ru.artsec.cch.util.ServerProviderHelper;
 
 
 public class TicketSearchFragment extends Fragment {
@@ -53,16 +54,22 @@ public class TicketSearchFragment extends Fragment {
         }
 
         protected void onPostExecute(String result) {
-           if (main.get(0).getTicketValues().size() > 0){
-               Toast.makeText(getActivity(), "Найден билет с идентификатором: " + main.get(0).getTicketValues().get(0).getKeyValue(), Toast.LENGTH_SHORT).show();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame
-                                , new TicketFragment())
-                        .commit();
-           } else {
-                Toast.makeText(getActivity(), "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
-           }
-           TicketSearchFragment.this.pd.dismiss();
+            TicketSearchFragment.this.pd.dismiss();
+            ServerProviderHelper.errorException();
+            if (ServerProviderHelper.getErrorMsg() == null) {
+                if (main.get(0).getTicketValues().size() > 0){
+                    Toast.makeText(getActivity(), "Найден билет с идентификатором: " + main.get(0).getTicketValues().get(0).getKeyValue(), Toast.LENGTH_SHORT).show();
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.content_frame
+                                    , new TicketFragment())
+                            .commit();
+                } else {
+                    Toast.makeText(getActivity(), "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
+                Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
