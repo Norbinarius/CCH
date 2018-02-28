@@ -286,50 +286,54 @@ public class ServerProvider {
         return passLog;
     }
 
-    public static ArrayList<FailPassLog> getFailPassLog(Activity act, Integer ActionID, Integer StartID){
-        SoapObject request = new SoapObject(SharedPrefsUtil.LoadString(act, "NamespaceGate", Config.NAMESPACE_GATES), Config.GET_FAIL_PASS_LOG);
-
-        ServerProviderHelper.addProperty(request, "ActionID", ActionID, Integer.class);
-        ServerProviderHelper.addProperty(request, "StartID", StartID, Integer.class);
-
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        ServerProviderHelper.envelopeSetUpParams(envelope, request);
-
-        HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceGate", Config.URL_GATES));
+    public static ArrayList<FailPassLog> getFailPassLog(Activity act){
+        String actionID = SharedPrefsUtil.LoadString(act,"ActionID", null);
         ArrayList failLog = new ArrayList();
-        if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
-            try {
-                androidHttpTransport.call(SharedPrefsUtil.LoadString(act, "NamespaceGate", Config.NAMESPACE_GATES) + "/" + Config.GET_FAIL_PASS_LOG, envelope);
-                SoapObject resultRequestSOAP = (SoapObject) envelope.bodyIn;
-                Log.wtf("MYTAG", resultRequestSOAP.toString());
+        if(actionID != null) {
+            SoapObject request = new SoapObject(SharedPrefsUtil.LoadString(act, "NamespaceGate", Config.NAMESPACE_GATES), Config.GET_FAIL_PASS_LOG);
+            ServerProviderHelper.addProperty(request, "ActionID", actionID, Integer.class);
+            ServerProviderHelper.addProperty(request, "StartID", 1, Integer.class);
 
-                SoapObject s_deals = (SoapObject) resultRequestSOAP.getProperty(0);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            ServerProviderHelper.envelopeSetUpParams(envelope, request);
 
-                for (int i = 0; i < s_deals.getPropertyCount(); i++) {
-                    Object property = s_deals.getProperty(i);
-                    if (property instanceof SoapObject) {
-                        SoapObject list = (SoapObject) property;
-                        FailPassLog fpl = new FailPassLog();
-                        fpl.setTime(list.getProperty("CurTime").toString());
-                        fpl.setKey(list.getProperty("KeyValue").toString());
-                        fpl.setID(list.getProperty("ID").toString());
-                        fpl.setReason(list.getProperty("Reason").toString());
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceGate", Config.URL_GATES));
+            if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
+                try {
+                    androidHttpTransport.call(SharedPrefsUtil.LoadString(act, "NamespaceGate", Config.NAMESPACE_GATES) + "/" + Config.GET_FAIL_PASS_LOG, envelope);
+                    SoapObject resultRequestSOAP = (SoapObject) envelope.bodyIn;
+                    Log.wtf("MYTAG", resultRequestSOAP.toString());
+
+                    SoapObject s_deals = (SoapObject) resultRequestSOAP.getProperty(0);
+
+                    for (int i = 0; i < s_deals.getPropertyCount(); i++) {
+                        Object property = s_deals.getProperty(i);
+                        if (property instanceof SoapObject) {
+                            SoapObject list = (SoapObject) property;
+                            FailPassLog fpl = new FailPassLog();
+                            fpl.setTime(list.getProperty("CurTime").toString());
+                            fpl.setKey(list.getProperty("KeyValue").toString());
+                            fpl.setID(list.getProperty("ID").toString());
+                            fpl.setReason(list.getProperty("Reason").toString());
                             SoapObject door = (SoapObject) list.getProperty("Door");
                             fpl.setDoorID(door.getProperty("ID").toString());
                             fpl.setDoorName(door.getProperty("Name").toString());
                             SoapObject place = (SoapObject) list.getProperty("Place");
                             fpl.setPlaceID(place.getProperty("ID").toString());
                             fpl.setPlaceName(place.getProperty("Name").toString());
-                        failLog.add(fpl);
+                            failLog.add(fpl);
+                        }
                     }
+                    ServerProviderHelper.setErrorMsg(null);
+                } catch (Exception e) {
+                    ServerProviderHelper.setErrorMsg(e.toString());
+                    Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
                 }
-                ServerProviderHelper.setErrorMsg(null);
-            } catch (Exception e) {
-                ServerProviderHelper.setErrorMsg(e.toString());
-                Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
+            } else {
+                ServerProviderHelper.setErrorMsg("Ошибка сети, проверьте подключение к сети");
             }
         } else {
-            ServerProviderHelper.setErrorMsg("Ошибка сети, проверьте подключение к сети");
+            ServerProviderHelper.setErrorMsg("Ошибка текущего мероприятия, перейдите на главную страницу и выберите мероприятие");
         }
         return failLog;
     }

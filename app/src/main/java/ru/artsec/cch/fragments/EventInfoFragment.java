@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import ru.artsec.cch.Nav;
 import ru.artsec.cch.R;
 import ru.artsec.cch.ServerProvider;
 import ru.artsec.cch.model.Event;
@@ -39,13 +41,14 @@ public class EventInfoFragment extends Fragment {
     TextView eventEndTime;
     TextView attributes;
     TextView comment;
+    Button selectAsActive;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.events_main, container, false);
 
-        cont = (LinearLayout)root.findViewById(R.id.layout_event);
+        cont = (LinearLayout) root.findViewById(R.id.layout_event);
         inflaterr = (LayoutInflater)getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         eventList = new ArrayList<Event>();
@@ -68,6 +71,7 @@ public class EventInfoFragment extends Fragment {
         eventEndTime = (TextView) child.findViewById(R.id.event_info_end_time);
         attributes = (TextView) child.findViewById(R.id.event_info_attr);
         comment = (TextView) child.findViewById(R.id.event_info_comment);
+        selectAsActive = (Button) child.findViewById(R.id.event_select_action);
 
         for (int i = 0; i < eventList.size(); i++) {
             eventId.setText(eventList.get(i).getId());
@@ -76,6 +80,17 @@ public class EventInfoFragment extends Fragment {
             eventEndTime.setText(Formatter.timeToStr(eventList.get(i).getTimeEnd()));
             attributes.setText(Arrays.toString(eventList.get(i).getAttributes()));
             comment.setText(eventList.get(i).getComment());
+        }
+
+        if(Nav.isEventActive()){
+            selectAsActive.setVisibility(View.VISIBLE);
+            selectAsActive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainFragment.saveActionAndTime(getActivity(), eventList.get(0).getId(), eventList.get(0).getTimeEnd());
+                    Toast.makeText(getActivity(), "Текущее мероприятие изменено.", Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         cont.addView(child);

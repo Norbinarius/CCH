@@ -20,22 +20,29 @@
             android:background="@drawable/fragment_text"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/settings_door_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Точка прохода по умолчанию:"
-                android:textColor="@android:color/black" />
-
-            <EditText
-                android:id="@+id/settings_door_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/settings_door_text"
-                android:layout_marginTop="5dp"
-                android:inputType="number"
-                android:hint="Введите ID точки прохода"
-                android:textColor="@android:color/black" />
+                android:text="Основное"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/settings_door_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Точка прохода по умолчанию:"
+                    android:textColor="@android:color/black" />
+                <EditText
+                    android:id="@+id/settings_door_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/settings_door_text"
+                    android:layout_marginTop="5dp"
+                    android:inputType="number"
+                    android:hint="Введите ID точки прохода"
+                    android:textColor="@android:color/black" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,23 +51,84 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/fragment_text"
             android:orientation="vertical">
-        <TextView
-                android:id="@+id/settings_source_gate_text"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/settings_door_input"
                 android:layout_marginTop="5dp"
-                android:text="Адрес ресурса WebGate:"
-                android:textColor="@android:color/black" />
+                android:text="Параметры соединения"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                        android:id="@+id/settings_source_gate_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                        android:layout_below="@id/settings_door_input"
+                        android:layout_marginTop="5dp"
+                        android:text="Адрес ресурса WebGate:"
+                        android:textColor="@android:color/black" />
+                <EditText
+                    android:id="@+id/settings_source_gate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/settings_source_gate_text"
+                    android:layout_marginTop="5dp"
+                    android:hint="Введите адрес ресурса WebGate"
+                    android:textColor="@android:color/black" />
+                <TextView
+                        android:id="@+id/settings_source_skud_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_source_gate"
+                    android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Адрес ресурса WebSKUD:"
+                        android:textColor="@android:color/black" />
 
-            <EditText
-                android:id="@+id/settings_source_gate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/settings_source_gate_text"
-                android:layout_marginTop="5dp"
-                android:hint="Введите адрес ресурса WebGate"
-                android:textColor="@android:color/black" />
+                    <EditText
+                        android:id="@+id/settings_source_skud"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_source_skud_text"
+                        android:layout_marginTop="5dp"
+                        android:hint="Введите пространство имен ресурса WebSKUD"
+                        android:textColor="@android:color/black" />
+                <TextView
+                        android:id="@+id/settings_namespace_gate_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_source_skud"
+                    android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Пространство имен ресурса WebGate:"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/settings_namespace_gate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_namespace_gate_text"
+                        android:layout_marginTop="5dp"
+                        android:hint="Пример: http://www.artonit.ru/gates"
+                        android:textColor="@android:color/black" />
+                <TextView
+                        android:id="@+id/settings_namespace_skud_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_namespace_gate"
+                    android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Пространство имен ресурса WebSKUD:"
+                        android:textColor="@android:color/black" />
+
+                    <EditText
+                        android:id="@+id/settings_namespace_skud"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_namespace_skud_text"
+                        android:layout_marginTop="5dp"
+                        android:hint="Пример: http://www.artonit.ru/SKUD"
+                        android:textColor="@android:color/black" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,73 +137,27 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/fragment_text"
             android:orientation="vertical">
-        <TextView
-                android:id="@+id/settings_source_skud_text"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/settings_source_gate"
                 android:layout_marginTop="5dp"
-                android:text="Адрес ресурса WebSKUD:"
-                android:textColor="@android:color/black" />
-
-            <EditText
-                android:id="@+id/settings_source_skud"
+                android:text="Предустановки соединения"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark" />
+            <Button
+                android:id="@+id/settings_create_preload"
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/settings_source_skud_text"
-                android:layout_marginTop="5dp"
-                android:hint="Введите пространство имен ресурса WebSKUD"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/fragment_text"
-            android:orientation="vertical">
-        <TextView
-                android:id="@+id/settings_namespace_gate_text"
+                android:background="@drawable/fragment_selector"
+                android:text="Создать предустановку" />
+            <Button
+                android:id="@+id/settings_apply_preload"
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/settings_source_skud"
-                android:layout_marginTop="5dp"
-                android:text="Пространство имен ресурса WebGate:"
-                android:textColor="@android:color/black" />
-
-            <EditText
-                android:id="@+id/settings_namespace_gate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/settings_namespace_gate_text"
-                android:layout_marginTop="5dp"
-                android:hint="Пример: http://www.artonit.ru/gates"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/fragment_text"
-            android:orientation="vertical">
-        <TextView
-                android:id="@+id/settings_namespace_skud_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/settings_namespace_gate"
-                android:layout_marginTop="5dp"
-                android:text="Пространство имен ресурса WebSKUD:"
-                android:textColor="@android:color/black" />
-
-            <EditText
-                android:id="@+id/settings_namespace_skud"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/settings_namespace_skud_text"
-                android:layout_marginTop="5dp"
-                android:hint="Пример: http://www.artonit.ru/SKUD"
-                android:textColor="@android:color/black" />
+                android:background="@drawable/fragment_selector"
+                android:text="Загрузить предустановку" />
         </LinearLayout>
             <Button
                 android:id="@+id/settings_apply"
@@ -143,8 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/fragment_selector"
-                android:layout_below="@id/settings_namespace_skud"
-                android:text="Сохранить" />
+                android:text="Сохранить текущие настройки" />
 
     </LinearLayout>
     </ScrollView>

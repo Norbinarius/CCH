@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,16 +36,18 @@ import ru.artsec.cch.util.ServerProviderHelper;
 public class FailPassLogFragment extends Fragment {
 
     private ProgressDialog pd;
-    private LinearLayout cont;
+    private TableLayout cont;
+    public View root;
     private ArrayList<FailPassLog> failLogList;
     private LayoutInflater inflaterr;
+    private static int failCount = 5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fail_pass_log_main, container, false);
+        root = inflater.inflate(R.layout.fail_pass_log_main, container, false);
 
         failLogList = new ArrayList<FailPassLog>();
-        cont = (LinearLayout)root.findViewById(R.id.layout_fail_pass_log);
+        cont =  (TableLayout)root.findViewById(R.id.tablelayout);
         inflaterr = (LayoutInflater)getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         cont.removeAllViews();
 
@@ -60,22 +64,22 @@ public class FailPassLogFragment extends Fragment {
 
     private void setDataToLayout(){
         Log.wtf("MYTAG", String.valueOf(failLogList.size()));
-        for (int i = failLogList.size() - 1; i > failLogList.size() - 4; i--) {
-            View child = inflaterr.inflate(R.layout.fail_pass_fragment, null, false);
+        TableRow header = (TableRow) inflaterr.inflate(R.layout.fail_pass_table_header, null, false);
+        cont.addView(header);
+        for (int i = failLogList.size() - 1; i > failLogList.size() - failCount - 1; i--) {
+            TableRow child = (TableRow) inflaterr.inflate(R.layout.fail_pass_fragment, null, false);
 
-            TextView doorID = (TextView) child.findViewById(R.id.fail_log_door_id);
+            TextView placeName = (TextView) child.findViewById(R.id.fail_log_door_place);
             TextView doorName = (TextView) child.findViewById(R.id.fail_log_door_name);
             TextView time = (TextView) child.findViewById(R.id.fail_log_time);
-            TextView id = (TextView) child.findViewById(R.id.fail_log_id);
             TextView key = (TextView) child.findViewById(R.id.fail_log_key);
             TextView reason = (TextView) child.findViewById(R.id.fail_log_reason);
 
-            doorID.setText("Номер точки прохода: " + failLogList.get(i).getDoorID());
-            doorName.setText("Точка прохода: " + failLogList.get(i).getDoorName());
-            time.setText("Метка времени: " + Formatter.timeToStr(failLogList.get(i).getTime()));
-            id.setText("Номер отказа: " + failLogList.get(i).getID());
-            key.setText("Номер билета: " + failLogList.get(i).getKey());
-            reason.setText("Причина: " + failLogList.get(i).getReason());
+            placeName.setText(failLogList.get(i).getPlaceName());
+            doorName.setText(failLogList.get(i).getDoorName());
+            time.setText(Formatter.timeToStr(failLogList.get(i).getTime()));
+            key.setText(failLogList.get(i).getKey());
+            reason.setText(failLogList.get(i).getReason());
 
             cont.addView(child);
         }
@@ -83,18 +87,22 @@ public class FailPassLogFragment extends Fragment {
 
     private class AsyncLoad extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... args) {
-            failLogList = ServerProvider.getFailPassLog(getActivity(), 1, 1);
+            failLogList = ServerProvider.getFailPassLog(getActivity());
             return null;//returns what you want to pass to the onPostExecute()
         }
 
         protected void onPostExecute(String result) {
             FailPassLogFragment.this.pd.dismiss();
             ServerProviderHelper.errorException();
-            if (ServerProviderHelper.getErrorMsg() == null) {
-                setDataToLayout();
+            if (failLogList.size() > 0) {
+                if (ServerProviderHelper.getErrorMsg() == null) {
+                    setDataToLayout();
+                } else {
+                    Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
+                    Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                }
             } else {
-                Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
-                Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Отказы не обнаружены.", Toast.LENGTH_LONG).show();
             }
         }
     }

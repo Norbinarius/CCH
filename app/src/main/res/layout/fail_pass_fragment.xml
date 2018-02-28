@@ -1,66 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/pass_log_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="@drawable/event_fragment"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/fail_log_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Номер отказа: 4231"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/fail_log_reason"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Причина: 4231"
-                android:layout_below="@id/fail_log_id"
-                android:textColor="@android:color/black" />
-            <TextView
+        <TableRow android:padding="5dp" xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/cell">
+            <TextView android:layout_width="fill_parent"
                 android:id="@+id/fail_log_key"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fail_log_reason"
-                android:text="Номер билета: 4231"
-                android:textColor="@android:color/black" />
-            <TextView
+                android:text="Билет"
+                android:gravity="center_horizontal"
+                android:textColor="#838383"
+                android:textSize="@dimen/table_text"
+                />
+            <TextView android:layout_width="fill_parent"
+                android:id="@+id/fail_log_reason"
+                android:layout_height="wrap_content"
+                android:text="Причина"
+                android:gravity="center_horizontal"
+                android:textColor="#838383"
+                android:textSize="@dimen/table_text"
+                />
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/fail_log_time"
-                android:layout_width="match_parent"
+                android:text="Время"
+                android:gravity="center_horizontal"
+                android:textColor="#838383"
+                android:textSize="@dimen/table_text"
+                />
+            <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fail_log_key"
-                android:text="Время: 4231"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/fail_log_door_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fail_log_time"
-                android:text="Номер точки прохода: 4231"
-                android:textColor="@android:color/black" />
-            <TextView
+                android:text="Точка прохода"
                 android:id="@+id/fail_log_door_name"
-                android:layout_width="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="#838383"
+                android:textSize="@dimen/table_text"
+                />
+            <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fail_log_door_id"
-                android:text="Точка прохода: вход в зал тестирования"
-                android:textColor="@android:color/black" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-
-</LinearLayout>
+                android:text="Площадка"
+                android:id="@+id/fail_log_door_place"
+                android:gravity="center_horizontal"
+                android:textColor="#838383"
+                android:textSize="@dimen/table_text"
+                />
+        </TableRow>

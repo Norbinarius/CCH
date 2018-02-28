@@ -3,16 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <item android:title="Основное">
+        <menu>
+            <item
+                android:id="@+id/nav_main"
+                android:icon="@drawable/ic_fullscreen_black_24dp"
+                android:title="Главная" />
+            <item
+                android:id="@+id/nav_fail_log"
+                android:icon="@drawable/ic_assignment_late_black_24dp"
+                android:title="Журнал отказов" />
+        </menu>
+    </item>
     <item android:title="Мероприятия">
         <menu>
             <item
                 android:id="@+id/nav_active_events"
                 android:icon="@drawable/ic_event_available_black_24dp"
-                android:title="Текующие мероприятия" />
+                android:title="Текущие мероприятия" />
             <item
                 android:id="@+id/nav_disabled_events"
                 android:icon="@drawable/ic_event_note_black_24dp"
-                android:title="Просшедшие мероприятия" />
+                android:title="Список мероприятий" />
         </menu>
     </item>
 
@@ -31,10 +43,6 @@
 
     <item android:title="Прочее">
         <menu>
-            <item
-                android:id="@+id/nav_fail_log"
-                android:icon="@drawable/ic_assignment_late_black_24dp"
-                android:title="Журнал отказов" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_manage"

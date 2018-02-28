@@ -27,6 +27,7 @@ import java.util.TimerTask;
 
 import ru.artsec.cch.fragments.EventFragment;
 import ru.artsec.cch.fragments.FailPassLogFragment;
+import ru.artsec.cch.fragments.MainFragment;
 import ru.artsec.cch.fragments.SettingsFragment;
 import ru.artsec.cch.fragments.TicketFragment;
 import ru.artsec.cch.fragments.TicketSearchFragment;
@@ -84,6 +85,10 @@ public class Nav extends AppCompatActivity
         main = new ArrayList<PairTicketProps>();
         getRepeatingAsyncTask();
 
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame
+                        , new MainFragment())
+                .commit();
     }
 
     @Override
@@ -92,7 +97,7 @@ public class Nav extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
@@ -204,6 +209,13 @@ public class Nav extends AppCompatActivity
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame
                                 , new SettingsFragment())
+                        .commit();
+                break;
+            case R.id.nav_main:
+                setTitle("Главная");
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame
+                                , new MainFragment())
                         .commit();
                 break;
         }
