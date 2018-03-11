@@ -40,12 +40,14 @@ public class MainFragment extends Fragment {
     private ProgressDialog pd;
     private LayoutInflater inflaterr;
     private LinearLayout cont;
+
     TextView eventId;
     TextView eventName;
     TextView eventStartTime;
     TextView eventEndTime;
     TextView attributes;
     TextView comment;
+
     public static ArrayList<Event> event;
     public static String actionID;
 
@@ -108,6 +110,7 @@ public class MainFragment extends Fragment {
             } else {
                 Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
                 Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(getActivity(), "Произошла ошибка", ServerProviderHelper.getErrorMsg());
             }
         }
     }
@@ -126,6 +129,7 @@ public class MainFragment extends Fragment {
             } else {
                 Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
                 Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(getActivity(), "Произошла ошибка", ServerProviderHelper.getErrorMsg());
             }
         }
     }

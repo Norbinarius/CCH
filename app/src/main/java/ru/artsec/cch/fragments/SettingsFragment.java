@@ -163,7 +163,9 @@ public class SettingsFragment extends Fragment {
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 if (input.getText() != null){
                     ArrayList<Settings> array = new ArrayList<Settings>();
-                    array = SharedPrefsUtil.LoadArrayList(getActivity(), "SettingsPreload");
+                    if (SharedPrefsUtil.LoadArrayList(getActivity(), "SettingsPreload") != null) {
+                        array = SharedPrefsUtil.LoadArrayList(getActivity(), "SettingsPreload");
+                    }
                     Settings setts = new Settings();
                     setts.setNamePreload(input.getText().toString());
                     setts.setIpGatePreload(inputGate.getText().toString());

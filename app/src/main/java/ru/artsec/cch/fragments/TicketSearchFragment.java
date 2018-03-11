@@ -65,10 +65,12 @@ public class TicketSearchFragment extends Fragment {
                             .commit();
                 } else {
                     Toast.makeText(getActivity(), "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
+                    ErrorFragment.setErrorMsgToFragment(getActivity(), "Билет не найден", "Билет с такими данными не найден");
                 }
             } else {
                 Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
                 Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(getActivity(), "Произошла ошибка", ServerProviderHelper.getErrorMsg());
             }
         }
     }

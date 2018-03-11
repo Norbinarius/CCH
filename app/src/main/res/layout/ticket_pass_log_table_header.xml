@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow android:padding="5dp" xmlns:android="http://schemas.android.com/apk/res/android" android:background="@color/colorPrimaryDark">
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Статус"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/table_text_header"
+        />
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Точка прохода"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/table_text_header"
+        />
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Площадка"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/table_text_header"
+        />
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Время"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/table_text_header"
+        />
+</TableRow>

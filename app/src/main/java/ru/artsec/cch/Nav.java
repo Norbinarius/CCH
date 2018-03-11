@@ -15,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ru.artsec.cch.fragments.ErrorFragment;
 import ru.artsec.cch.fragments.EventFragment;
 import ru.artsec.cch.fragments.FailPassLogFragment;
 import ru.artsec.cch.fragments.MainFragment;
@@ -41,8 +44,8 @@ public class Nav extends AppCompatActivity
     private static String ticketID;
     public static ArrayList<PairTicketProps> main;
     public static String versionServer;
-    private Menu menu;
-
+    public static Menu menu;
+    public static Activity act;
     public static boolean isIsSearchViaCam() {
         return isSearchViaCam;
     }
@@ -103,8 +106,8 @@ public class Nav extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
         getMenuInflater().inflate(R.menu.nav, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -243,10 +246,12 @@ public class Nav extends AppCompatActivity
                             .commit();
                 } else {
                     Toast.makeText(Nav.this, "Билет с такими данными не найден", Toast.LENGTH_SHORT).show();
+                    ErrorFragment.setErrorMsgToFragment(Nav.this, "Билет не найден", "Билет с такими данными не найден");
                 }
             } else {
                 Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
                 Toast.makeText(Nav.this, ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(Nav.this, "Произошла ошибка", ServerProviderHelper.getErrorMsg());
             }
         }
     }
@@ -257,6 +262,7 @@ public class Nav extends AppCompatActivity
         if(result != null){
             if(result.getContents()==null){
                 Toast.makeText(this, "Сканирование отмененно", Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(this, "Отмена сканирования", "Сканирование отмененно");
             }
             else {
                 try{

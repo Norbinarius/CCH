@@ -126,6 +126,7 @@ public class EventFragment extends Fragment {
             } else {
                 Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
                 Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(getActivity(), "Произошла ошибка", ServerProviderHelper.getErrorMsg());
             }
         }
     }

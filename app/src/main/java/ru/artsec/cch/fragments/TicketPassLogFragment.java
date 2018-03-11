@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import ru.artsec.cch.Nav;
 import ru.artsec.cch.R;
 import ru.artsec.cch.ServerProvider;
 import ru.artsec.cch.model.Event;
+import ru.artsec.cch.model.FailPassLog;
 import ru.artsec.cch.model.PassLogTicket;
 import ru.artsec.cch.util.Formatter;
 import ru.artsec.cch.util.ServerProviderHelper;
@@ -32,16 +35,17 @@ import ru.artsec.cch.util.ServerProviderHelper;
 public class TicketPassLogFragment extends Fragment {
 
     private ProgressDialog pd;
-    private LinearLayout cont;
+    private TableLayout cont;
+    public View root;
     private ArrayList<PassLogTicket> passLogList;
     private LayoutInflater inflaterr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ticket_pass_log_main, container, false);
-
+        root = inflater.inflate(R.layout.ticket_pass_log_main, container, false);
         passLogList = new ArrayList<PassLogTicket>();
-        cont = (LinearLayout)root.findViewById(R.id.layout_pass_log_ticket);
+
+        cont =  (TableLayout)root.findViewById(R.id.tablelayout);
         inflaterr = (LayoutInflater)getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         cont.removeAllViews();
 
@@ -57,20 +61,20 @@ public class TicketPassLogFragment extends Fragment {
 
 
     private void setDataToLayout(){
-
+        cont.removeAllViews();
+        TableRow header = (TableRow) inflaterr.inflate(R.layout.ticket_pass_log_table_header, null, false);
+        cont.addView(header);
         for (int i = 0; i < passLogList.size(); i++) {
-            View child = inflaterr.inflate(R.layout.ticket_pass_log_fragment, null, false);
+            TableRow child = (TableRow) inflaterr.inflate(R.layout.ticket_pass_log_fragment, null, false);
 
-            TextView doorID = (TextView) child.findViewById(R.id.pass_log_door_id);
             TextView doorName = (TextView) child.findViewById(R.id.pass_log_door_name);
             TextView placeName = (TextView) child.findViewById(R.id.pass_log_place_name);
             TextView passTime = (TextView) child.findViewById(R.id.pass_log_time);
             ImageView passState = (ImageView) child.findViewById(R.id.pass_log_state);
 
-            doorID.setText("Номер точки прохода: " + passLogList.get(i).getDoorID());
-            doorName.setText("Точка прохода: " + passLogList.get(i).getDoorName());
-            passTime.setText("Метка времени: " + Formatter.timeToStr(passLogList.get(i).getPassTime()));
-            placeName.setText("Название площадки: " + passLogList.get(i).getPlaceName());
+            doorName.setText(passLogList.get(i).getDoorName());
+            passTime.setText(Formatter.timeToStr(passLogList.get(i).getPassTime()));
+            placeName.setText(passLogList.get(i).getPlaceName());
 
             if (passLogList.get(i).getIsEnter().replaceAll("\\s+","").equals("true")){
                 passState.setImageResource(R.drawable.check);
@@ -98,6 +102,7 @@ public class TicketPassLogFragment extends Fragment {
             } else {
                 Log.wtf("MYTAG",ServerProviderHelper.getErrorMsg());
                 Toast.makeText(getActivity(), ServerProviderHelper.getErrorMsg(), Toast.LENGTH_LONG).show();
+                ErrorFragment.setErrorMsgToFragment(getActivity(), "Произошла ошибка", ServerProviderHelper.getErrorMsg());
             }
         }
     }

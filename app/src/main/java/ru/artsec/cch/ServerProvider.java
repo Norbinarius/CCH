@@ -36,6 +36,7 @@ public class ServerProvider {
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
         HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceSKUD", Config.URL_SKUD));
+        androidHttpTransport.debug = true;
         if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
             try {
                 androidHttpTransport.call(SharedPrefsUtil.LoadString(act, "NamespaceSKUD", Config.NAMESPACE_SKUD)+ "/" + Config.GET_VERSION , envelope);
@@ -44,6 +45,9 @@ public class ServerProvider {
                 ServerProviderHelper.setErrorMsg(null);
             } catch (Exception e) {
                 ServerProviderHelper.setErrorMsg(e.toString());
+                if (ServerProviderHelper.getErrorMsg().contains("cannot be cast to")) {
+                    ServerProviderHelper.setErrorMsg(androidHttpTransport.responseDump);
+                }
                 Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
             }
         } else {
@@ -57,6 +61,7 @@ public class ServerProvider {
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
         HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceSKUD", Config.URL_SKUD));
+        androidHttpTransport.debug = true;
         ArrayList mainList = new ArrayList();
         if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
             try {
@@ -84,6 +89,9 @@ public class ServerProvider {
                 ServerProviderHelper.setErrorMsg(null);
             } catch (Exception e) {
                 ServerProviderHelper.setErrorMsg(e.toString());
+                if (ServerProviderHelper.getErrorMsg().contains("cannot be cast to")) {
+                    ServerProviderHelper.setErrorMsg(androidHttpTransport.responseDump);
+                }
                 Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
             }
         } else {
@@ -97,6 +105,7 @@ public class ServerProvider {
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);
         HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceSKUD", Config.URL_SKUD));
+        androidHttpTransport.debug = true;
         ArrayList mainList = new ArrayList();
         if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
             try {
@@ -124,6 +133,9 @@ public class ServerProvider {
                 ServerProviderHelper.setErrorMsg(null);
             } catch (Exception e) {
                 ServerProviderHelper.setErrorMsg(e.toString());
+                if (ServerProviderHelper.getErrorMsg().contains("cannot be cast to")) {
+                    ServerProviderHelper.setErrorMsg(androidHttpTransport.responseDump);
+                }
                 Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
             }
         } else {
@@ -140,6 +152,7 @@ public class ServerProvider {
         ServerProviderHelper.envelopeSetUpParams(envelope, request);
 
         HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceSKUD", Config.URL_SKUD));
+        androidHttpTransport.debug = true;
         ArrayList mainList = new ArrayList();
         if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
             try {
@@ -165,6 +178,9 @@ public class ServerProvider {
                 ServerProviderHelper.setErrorMsg(null);
             } catch (Exception e) {
                 ServerProviderHelper.setErrorMsg(e.toString());
+                if (ServerProviderHelper.getErrorMsg().contains("cannot be cast to")) {
+                    ServerProviderHelper.setErrorMsg(androidHttpTransport.responseDump);
+                }
                 Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
             }
         } else {
@@ -251,6 +267,7 @@ public class ServerProvider {
         ServerProviderHelper.envelopeSetUpParams(envelope, request);
 
         HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceSKUD", Config.URL_SKUD));
+        androidHttpTransport.debug = true;
         ArrayList passLog = new ArrayList();
         if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
             try {
@@ -278,6 +295,9 @@ public class ServerProvider {
                 ServerProviderHelper.setErrorMsg(null);
             } catch (Exception e) {
                 ServerProviderHelper.setErrorMsg(e.toString());
+                if (ServerProviderHelper.getErrorMsg().contains("cannot be cast to")) {
+                    ServerProviderHelper.setErrorMsg(androidHttpTransport.responseDump);
+                }
                 Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
             }
         } else {
@@ -286,18 +306,19 @@ public class ServerProvider {
         return passLog;
     }
 
-    public static ArrayList<FailPassLog> getFailPassLog(Activity act){
+    public static ArrayList<FailPassLog> getFailPassLog(Activity act, Integer startID){
         String actionID = SharedPrefsUtil.LoadString(act,"ActionID", null);
         ArrayList failLog = new ArrayList();
         if(actionID != null) {
             SoapObject request = new SoapObject(SharedPrefsUtil.LoadString(act, "NamespaceGate", Config.NAMESPACE_GATES), Config.GET_FAIL_PASS_LOG);
             ServerProviderHelper.addProperty(request, "ActionID", actionID, Integer.class);
-            ServerProviderHelper.addProperty(request, "StartID", 1, Integer.class);
+            ServerProviderHelper.addProperty(request, "StartID", startID, Integer.class);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             ServerProviderHelper.envelopeSetUpParams(envelope, request);
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SharedPrefsUtil.LoadString(act, "SourceGate", Config.URL_GATES));
+            androidHttpTransport.debug = true;
             if (ServerProviderHelper.isDeviceConnectedToWeb(act)) {
                 try {
                     androidHttpTransport.call(SharedPrefsUtil.LoadString(act, "NamespaceGate", Config.NAMESPACE_GATES) + "/" + Config.GET_FAIL_PASS_LOG, envelope);
@@ -327,6 +348,9 @@ public class ServerProvider {
                     ServerProviderHelper.setErrorMsg(null);
                 } catch (Exception e) {
                     ServerProviderHelper.setErrorMsg(e.toString());
+                    if (ServerProviderHelper.getErrorMsg().contains("cannot be cast to")) {
+                        ServerProviderHelper.setErrorMsg(androidHttpTransport.responseDump);
+                    }
                     Log.wtf("MYTAG", ServerProviderHelper.getErrorMsg());
                 }
             } else {
